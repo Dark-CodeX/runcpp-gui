@@ -1,9 +1,8 @@
 function highlighting() {
-    var code_blocks = document.getElementsByClassName("code_content");
+    var code_blocks = document.getElementsByClassName("code-content");
     for (let i = 0; i < code_blocks.length; i++) {
         let sub_names = code_blocks[i].textContent.split(" ");
         code_blocks[i].innerHTML = "";
-        console.log(sub_names);
         sub_names.forEach((txt) => {
             let span = code_blocks[i].appendChild(document.createElement("span"));
             span.textContent = txt + " ";
