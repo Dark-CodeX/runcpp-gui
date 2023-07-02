@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNCPP</title>
+    <link rel="stylesheet" type="text/css" href="./style/style.css">
+    <link rel="stylesheet" type="text/css" href="./style/syntax_highlighting.css">
+    <link rel="stylesheet" type="text/css" href="../node_modules/xterm/css/xterm.css">
+    <script src="../node_modules/xterm/lib/xterm.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li>
+                    <p>RUNCPP</p>
+                </li>
+                <div class="right_navbar">
+                    <button type="button" id="switch_theme">LIGHT</button>
+                    <input type="search" name="search" placeholder="Search targets...">
+                </div>
+            </ul>
+        </nav>
+    </header>
+    <div class="data">
+        <div id="data_container">
+            <ul>
+                <li>
+                    <div class="start_button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="green"
+                            class="bi bi-play-fill" viewBox="0 0 16 16">
+                            <path
+                                d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
+                        </svg>
+                    </div>
+                </li>
+                <li>
+                    <p class="target_name">release<span class="target_hash">100341245</span></p>
+                </li>
+            </ul>
+            <div class="code">
+                <details>
+                    <summary>Code</summary>
+                    <pre class="code_content">[ clang++ ]
+[ -std=c++2a, -O3, -DNDEBUG, -march=native, -mtune=native, -masm=intel, -flto ]
+[ ./runcpp/src/caller/caller.cc, ./runcpp/src/io/io.cc, ./runcpp/src/os/os.cc, ./runcpp/src/parser/command_generator.cc, ./runcpp/src/parser/import_helper.cc, ./runcpp/src/parser/miscellaneous.cc, ./runcpp/src/parser/serialize_deserialize_merge.cc, ./runcpp/src/parser/helper_functions.cc, ./runcpp/src/parser/parser.cc, ./runcpp/src/main/main.cc ]
+[ -o, ./bin/runcpp ]</pre>
+                </details>
+            </div>
+            <div class="terminal">
+                <details>
+                    <summary>Result</summary>
+                    <div id="terminal"></div>
+            </div>
+        </div>
+</body>
+
+<script src="./js/theme_switch.js"></script>
+<script src="./js/terminal.js"></script>
+
+</html>

@@ -1,0 +1,21 @@
+:root {
+    --string-color: #c3e88d;
+    --bracket-color: #ffd333;
+    --comma-color: #4c9feb;
+}
+
+.string {
+    color: var(--string-color);
+    font-size: large;
+}
+
+.bracket {
+    color: var(--bracket-color);
+    font-size: large;
+    font-weight: bold;
+}
+
+.commas {
+    color: var(--comma-color);
+    font-size: large;
+}
