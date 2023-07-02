@@ -8,7 +8,6 @@
     <link rel="stylesheet" type="text/css" href="./style/style.css">
     <link rel="stylesheet" type="text/css" href="./style/syntax_highlighting.css">
     <link rel="stylesheet" type="text/css" href="../node_modules/xterm/css/xterm.css">
-    <script src="../node_modules/xterm/lib/xterm.js"></script>
 
 </head>
 
@@ -20,6 +19,7 @@
                     <p>RUNCPP</p>
                 </li>
                 <div class="right_navbar">
+                    <button type="button" id="open_file_button">Open</button>
                     <button type="button" id="switch_theme">LIGHT</button>
                     <input type="search" name="search" placeholder="Search targets...">
                 </div>
@@ -45,7 +45,7 @@
             <div class="code">
                 <details>
                     <summary>Code</summary>
-                    <pre class="code_content">[ clang++ ]
+                    <pre class="code-content">[ clang++ ]
 [ -std=c++2a, -O3, -DNDEBUG, -march=native, -mtune=native, -masm=intel, -flto ]
 [ ./runcpp/src/caller/caller.cc, ./runcpp/src/io/io.cc, ./runcpp/src/os/os.cc, ./runcpp/src/parser/command_generator.cc, ./runcpp/src/parser/import_helper.cc, ./runcpp/src/parser/miscellaneous.cc, ./runcpp/src/parser/serialize_deserialize_merge.cc, ./runcpp/src/parser/helper_functions.cc, ./runcpp/src/parser/parser.cc, ./runcpp/src/main/main.cc ]
 [ -o, ./bin/runcpp ]</pre>
@@ -54,12 +54,13 @@
             <div class="terminal">
                 <details>
                     <summary>Result</summary>
-                    <div id="terminal"></div>
+                    <div id="terminal-content"></div>
             </div>
         </div>
 </body>
 
 <script src="./js/theme_switch.js"></script>
-<script src="./js/terminal.js"></script>
+<script type="module" src="./js/terminal.js"></script>
+<script type="module" src="./js/generate_ui.js"></script>
 
 </html>
