@@ -48,7 +48,7 @@ body {
     background-color: royalblue;
 }
 
-::-moz-selection {
+::selection {
     color: inherit;
     background: var(--select-color);
 }
@@ -199,7 +199,7 @@ body {
     padding-bottom: 20px;
     overflow-x: auto;
     font-family: monospace;
-    
+
     display: block;
     border-radius: 10px;
     width: auto;
