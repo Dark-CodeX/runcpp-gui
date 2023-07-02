@@ -1,5 +1,9 @@
-const { app, BrowserWindow, Menu } = require('electron');
-const { path, join } = require('path');
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { join } = require("path");
+const pty = require("node-pty");
+const os = require("os");
+
+var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -12,12 +16,53 @@ const createWindow = () => {
         width: 800,
         height: 600,
         webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
             preload: join(__dirname, 'preload.js'),
+            spellcheck: true,
+           // devTools: false,
+            zoomFactor: 1.0
         },
+        minHeight: 600,
+        minWidth: 800
     });
+    mainWindow.maximize();
+
     // and load the index.html of the app.
     mainWindow.loadFile(join(__dirname, '../index.html'));
-    mainWindow.setMenu(null);
+   // mainWindow.setMenu(null);
+
+    var pty_process = pty.spawn(shell, [], {
+        name: "xterm-color",
+        cols: 80,
+        rows: 24,
+        cwd: process.env.HOME,
+        env: process.env
+    });
+    pty_process.onData(function (data) {
+        mainWindow.webContents.send("terminal.incData", data);
+    });
+
+    ipcMain.on("terminal.toTerm", function (event, data) {
+        pty_process.write(data);
+    });
+
+    ipcMain.on('open-file-dialog', (event) => {
+        dialog.showOpenDialog({
+            properties: ['openFile'],
+            filters: [
+                { name: 'RUNCPP Files', extensions: ['*'] }
+            ]
+        }).then(result => {
+            if (!result.canceled && result.filePaths.length > 0) {
+                const filePath = result.filePaths[0];
+                event.reply('selected-file', filePath);
+            }
+        }).catch(err => {
+            console.error(err);
+        });
+    });
+
 };
 
 // This method will be called when Electron has finished

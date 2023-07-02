@@ -1,3 +1,18 @@
-var term = new Terminal();
-term.open(document.getElementById('terminal'));
-term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+const ipcR = require("electron").ipcRenderer;
+const FitAddon = require("xterm-addon-fit");
+const { Terminal } = require("xterm");
+
+let term = new Terminal();
+const fitAddon = new FitAddon.FitAddon();
+
+term.loadAddon(fitAddon);
+
+term.open(document.getElementById('terminal-content'));
+fitAddon.fit();
+term.onData(e => {
+    ipcR.send("terminal.toTerm", e);
+});
+
+ipcR.on("terminal.incData", function (event, data) {
+    term.write(data);
+});
