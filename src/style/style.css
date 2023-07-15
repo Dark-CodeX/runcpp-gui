@@ -6,6 +6,7 @@
     --error-bg-color: rgba();
     --shadow: 0px 0px 10px 10px rgba(7, 7, 7, 0.3);
     --shadow-child: 0px 0px 2px 2px rgba(15, 15, 15, 0.3);
+    --shadow-err-box: 0px 0px 2px 2px #ff5555;
     --select-color: rgba(80, 80, 80, 0.7);
 }
 
@@ -130,7 +131,8 @@ body {
     padding-top: 20px;
     padding-bottom: 20px;
     overflow: auto;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-err-box);
+    display: none;
 }
 
 .error pre {
