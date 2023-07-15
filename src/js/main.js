@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const { join } = require("path");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
+if (require("electron-squirrel-startup")) {
     app.quit();
 }
 
@@ -14,9 +14,9 @@ const createWindow = () => {
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
-            preload: join(__dirname, 'preload.js'),
+            preload: join(__dirname, "preload.js"),
             spellcheck: true,
-           // devTools: false,
+            // devTools: false,
             zoomFactor: 1.0
         },
         minHeight: 600,
@@ -25,19 +25,20 @@ const createWindow = () => {
     mainWindow.maximize();
 
     // and load the index.html of the app.
-    mainWindow.loadFile(join(__dirname, '../index.html'));
-   // mainWindow.setMenu(null);
+    mainWindow.loadFile(join(__dirname, "../index.html"));
+    // mainWindow.setMenu(null);
 
-    ipcMain.on('open-file-dialog', (event) => {
+    ipcMain.on("open-file-dialog", (event) => {
         dialog.showOpenDialog({
-            properties: ['openFile'],
+            title: "Open RUNCPP File",
+            properties: ["openFile"],
             filters: [
-                { name: 'RUNCPP Files', extensions: ['*'] }
+                { name: "RUNCPP Files", extensions: ["*"] }
             ]
         }).then(result => {
             if (!result.canceled && result.filePaths.length > 0) {
                 const filePath = result.filePaths[0];
-                event.reply('selected-file', filePath);
+                event.reply("selected-file", filePath);
             }
         }).catch(err => {
             console.error(err);
@@ -49,19 +50,19 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on("ready", createWindow);
 
-// Quit when all windows are closed, except on macOS. There, it's common
+// Quit when all windows are closed, except on macOS. There, it"s common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
-app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
+app.on("window-all-closed", () => {
+    if (process.platform !== "darwin") {
         app.quit();
     }
 });
 
-app.on('activate', () => {
-    // On OS X it's common to re-create a window in the app when the
+app.on("activate", () => {
+    // On OS X it"s common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow();
