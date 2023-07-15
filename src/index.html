@@ -7,7 +7,6 @@
     <title>RUNCPP</title>
     <link rel="stylesheet" type="text/css" href="./style/style.css">
     <link rel="stylesheet" type="text/css" href="./style/syntax_highlighting.css">
-    <link rel="stylesheet" type="text/css" href="../node_modules/xterm/css/xterm.css">
 
 </head>
 
@@ -26,6 +25,9 @@
             </ul>
         </nav>
     </header>
+    <div class="error" id="error_panel">
+        <pre>err: file `./compile.rc` was not found.</pre>
+    </div>
     <div class="data">
         <div id="data_container">
             <ul>
@@ -51,16 +53,17 @@
 [ -o, ./bin/runcpp ]</pre>
                 </details>
             </div>
-            <div class="terminal">
+            <div class="result-window">
                 <details>
                     <summary>Result</summary>
-                    <div id="terminal-content"></div>
+                    <pre class="result-content">
+lorem50
+                    </pre>
             </div>
         </div>
 </body>
 
 <script src="./js/theme_switch.js"></script>
-<script type="module" src="./js/terminal.js"></script>
 <script type="module" src="./js/generate_ui.js"></script>
 
 </html>

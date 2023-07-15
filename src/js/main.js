@@ -1,9 +1,5 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const { join } = require("path");
-const pty = require("node-pty");
-const os = require("os");
-
-var shell = os.platform() === "win32" ? "powershell.exe" : "bash";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -31,21 +27,6 @@ const createWindow = () => {
     // and load the index.html of the app.
     mainWindow.loadFile(join(__dirname, '../index.html'));
    // mainWindow.setMenu(null);
-
-    var pty_process = pty.spawn(shell, [], {
-        name: "xterm-color",
-        cols: 80,
-        rows: 24,
-        cwd: process.env.HOME,
-        env: process.env
-    });
-    pty_process.onData(function (data) {
-        mainWindow.webContents.send("terminal.incData", data);
-    });
-
-    ipcMain.on("terminal.toTerm", function (event, data) {
-        pty_process.write(data);
-    });
 
     ipcMain.on('open-file-dialog', (event) => {
         dialog.showOpenDialog({
