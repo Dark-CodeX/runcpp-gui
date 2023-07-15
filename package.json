@@ -36,10 +36,6 @@
         "@electron-forge/plugin-auto-unpack-natives": "^6.2.1",
         "bootstrap-icons": "^1.10.5",
         "electron": "25.3.0",
-        "electron-rebuild": "^3.2.9",
-        "node-pty": "^1.0.0",
-        "xterm": "^5.2.1",
-        "xterm-addon-attach": "^0.8.0",
-        "xterm-addon-fit": "^0.7.0"
+        "electron-rebuild": "^3.2.9"
     }
 }
