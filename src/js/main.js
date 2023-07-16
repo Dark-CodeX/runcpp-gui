@@ -44,7 +44,6 @@ const createWindow = () => {
             console.error(err);
         });
     });
-
 };
 
 // This method will be called when Electron has finished
