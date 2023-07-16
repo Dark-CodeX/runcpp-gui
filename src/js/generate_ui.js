@@ -4,8 +4,9 @@ const spawn = require("child_process").spawn;
 const Convert = require("ansi-to-html");
 
 var file_location = null;
-
 var open_button = document.getElementById("open_file_button");
+var ansi_c = new Convert();
+
 open_button.addEventListener("click", function () {
     ipcR.send("open-file-dialog");
 });
@@ -22,8 +23,6 @@ ipcR.on("selected-file", (event, filePath) => {
                 stdio: ["overlapped", "overlapped", "overlapped"]
             }
         );
-
-        var ansi_c = new Convert();
 
         runcpp.stderr.on("data", function (data) {
             var error_panel = document.getElementById("error_panel");
