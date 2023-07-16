@@ -11,7 +11,7 @@ function generate_html_for_data(iter, t_name, t_hash, c_cont, r_cont) {
     return `<div class="data_container">
     <ul>
         <li>
-            <div class="start_button" id="start_button` + iter + `">
+            <div class="start_button" id="start.button_` + t_name + `">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="green"
                     class="bi bi-play-fill" viewBox="0 0 16 16">
                     <path
@@ -20,20 +20,19 @@ function generate_html_for_data(iter, t_name, t_hash, c_cont, r_cont) {
             </div>
         </li>
         <li>
-            <p id="target_name` + iter + `" class="target_name">` + t_name + `<span id="target_hash` + iter + `"
-                    class="target_hash">`+ t_hash + `</span></p>
+            <p class="target_name">` + t_name + `<span class="target_hash">` + t_hash + `</span></p>
         </li>
     </ul>
     <div class="code">
         <details>
             <summary>Code</summary>
-            <pre class="code-content" id="code-content` + iter + `">` + c_cont + `</pre>
+            <pre class="code-content">` + c_cont + `</pre>
         </details>
     </div>
     <div class="result-window">
         <details>
             <summary>Result</summary>
-            <pre id="result-content` + iter + `">` + r_cont + `</pre>
+            <pre id="result-content_` + t_name + `">` + r_cont + `</pre>
     </div>
 </div>`;
 }
@@ -65,7 +64,7 @@ ipcR.on("selected-file", (event, filePath) => {
         runcpp.stderr.on("data", function (data) {
             has_error_occur = true;
 
-            document.documentElement.style.setProperty("--shadow-info-box", "0px 0px 2px 2px #ff5555");
+            document.documentElement.style.setProperty("--shadow-info-box", "0px 0px 4px 4px #ff5555");
 
             info_panel.children[0].innerHTML = ansi_c.toHtml(data.toString()); // sets to pre
             info_panel.style.setProperty("display", "flex");
@@ -75,7 +74,7 @@ ipcR.on("selected-file", (event, filePath) => {
 
             if (has_error_occur === false) {
                 info_panel.style.setProperty("display", "flex");
-                document.documentElement.style.setProperty("--shadow-info-box", "0px 0px 2px 2px #55ff55");
+                document.documentElement.style.setProperty("--shadow-info-box", "0px 0px 4px 4px #55ff55");
 
                 var content_strs = data.toString().split("\n");
                 let i = 0;
@@ -106,6 +105,30 @@ ipcR.on("selected-file", (event, filePath) => {
                     i++;
                 }
 
+                var start_buttons = document.getElementsByClassName("start_button");
+
+                for (let q = 0; q < start_buttons.length; q++) {
+                    start_buttons[q].addEventListener("click", () => {
+                        var target_name = start_buttons[q].id.substring(start_buttons[q].id.indexOf("_") + 1, start_buttons[q].id.length);
+                        document.getElementById("result-content_" + target_name).innerHTML = ""; // clear content every time button is clicked
+                        var rc_runner = spawn((os.platform() === "win32" ? "runcpp.exe" : "runcpp"), ["--deserialize", file_location + ".runcpp.bin", target_name],
+                            {
+                                env: process.env,
+                                cwd: file_location.substring(0, file_location.lastIndexOf(os.platform() === "win32" ? "\\" : "/")),
+                                shell: false,
+                                stdio: ["overlapped", "overlapped", "overlapped"]
+                            }
+                        );
+
+                        rc_runner.stderr.on("data", function (data) {
+                            document.getElementById("result-content_" + target_name).innerHTML += ansi_c.toHtml(data.toString()); // sets to pre
+                        });
+
+                        rc_runner.stdout.on("data", function (data) {
+                            document.getElementById("result-content_" + target_name).innerHTML += ansi_c.toHtml(data.toString()); // sets to pre
+                        });
+                    });
+                }
                 highlighting();
             }
         });
