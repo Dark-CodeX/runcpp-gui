@@ -6,7 +6,7 @@
     --error-bg-color: rgba();
     --shadow: 0px 0px 10px 10px rgba(7, 7, 7, 0.3);
     --shadow-child: 0px 0px 2px 2px rgba(15, 15, 15, 0.3);
-    --shadow-err-box: 0px 0px 2px 2px #ff5555;
+    --shadow-info-box: 0px 0px 2px 2px #ff5555;
     --select-color: rgba(80, 80, 80, 0.7);
 }
 
@@ -118,7 +118,7 @@ body {
     box-shadow: var(--shadow-child);
 }
 
-.error {
+.info-panel {
     margin-top: 30px;
     max-width: 90%;
     display: flex;
@@ -131,11 +131,11 @@ body {
     padding-top: 20px;
     padding-bottom: 20px;
     overflow: auto;
-    box-shadow: var(--shadow-err-box);
+    box-shadow: var(--shadow-info-box);
     display: none;
 }
 
-.error pre {
+.info-panel pre {
     padding-left: 20px;
     padding-right: 20px;
 }
@@ -157,7 +157,7 @@ body {
     box-shadow: var(--shadow);
 }
 
-.data #data_container {
+.data .data_container {
     width: 90%;
     padding-left: 20px;
     padding-right: 20px;
@@ -166,7 +166,7 @@ body {
     box-shadow: var(--shadow-child);
 }
 
-.data #data_container ul {
+.data .data_container ul {
     list-style: none;
     display: flex;
     align-items: center;
@@ -174,13 +174,13 @@ body {
     padding: 0;
 }
 
-.data #data_container li {
+.data .data_container li {
     float: left;
     margin-left: 15px;
     padding: 0;
 }
 
-.data #data_container .start_button {
+.data .data_container .start_button {
     display: flex;
     justify-content: center;
     background-color: var(--bg-sec-color);
@@ -192,7 +192,7 @@ body {
     box-shadow: var(--shadow-child);
 }
 
-.data #data_container .target_name {
+.data .data_container .target_name {
     color: var(--txt-color);
     user-select: none;
     font-size: xx-large;
@@ -201,7 +201,7 @@ body {
     cursor: pointer;
 }
 
-.data #data_container .target_name .target_hash {
+.data .data_container .target_name .target_hash {
     color: royalblue;
     margin-left: 10px;
     user-select: none;
@@ -213,12 +213,12 @@ body {
     transition: opacity 120ms ease-in;
 }
 
-.data #data_container .target_name:hover .target_hash {
+.data .data_container .target_name:hover .target_hash {
     opacity: 1;
 }
 
-.data #data_container .code,
-.data #data_container .result-window {
+.data .data_container .code,
+.data .data_container .result-window {
     max-width: 100%;
     padding-bottom: 20px;
     overflow-x: auto;
@@ -234,8 +234,8 @@ body {
     margin-bottom: 20px;
 }
 
-.data #data_container .code summary,
-.data #data_container .result-window summary {
+.data .data_container .code summary,
+.data .data_container .result-window summary {
     color: var(--txt-color);
     user-select: none;
     font-size: x-large;
