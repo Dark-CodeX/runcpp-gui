@@ -1,4 +1,4 @@
-function highlighting() {
+export function highlighting() {
     var code_blocks = document.getElementsByClassName("code-content");
     for (let i = 0; i < code_blocks.length; i++) {
         let sub_names = code_blocks[i].textContent.split(" ");
@@ -6,7 +6,7 @@ function highlighting() {
         sub_names.forEach((txt) => {
             let span = code_blocks[i].appendChild(document.createElement("span"));
             span.textContent = txt + " ";
-            if (txt === "]\n[" || txt === "[" || txt === "]") {
+            if (txt === "]\n" ||txt==="]\n["|| txt === "[" || txt === "]") {
                 span.classList.add("bracket");
             }
             else {
@@ -26,8 +26,6 @@ function highlighting() {
         });
     }
 }
-
-highlighting(); // must be called only once
 
 var theme_switcher = document.getElementById("switch_theme");
 theme_switcher.addEventListener("click", function () {
