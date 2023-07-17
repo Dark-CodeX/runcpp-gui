@@ -55,6 +55,7 @@ document.getElementById("open_file_button").addEventListener("click", function (
 
 ipcR.on("selected-file", (event, filePath) => {
     file_location = filePath;
+    document.title = "RUNCPP: " + filePath;
     if (file_location !== null) {
         target_names = []; // empty the vector
         document.getElementById("data").innerHTML = `<div style="display: none;" id="search_error_parent"><h2>No target found matching <span style="color: #ff5555;" id="search_error"></span></h2></div>`;
