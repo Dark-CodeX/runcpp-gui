@@ -6,9 +6,10 @@ import { highlighting } from "./theme_switch.js";
 
 var file_location = null;
 var ansi_c = new Convert();
+export var target_names = [];
 
-function generate_html_for_data(iter, t_name, t_hash, c_cont, r_cont) {
-    return `<div class="data_container">
+function generate_html_for_data(t_name, t_hash, c_cont) {
+    return `<div class="data_container" id="` + t_name + `">
     <ul>
         <li>
             <div class="start_button" id="start.button_` + t_name + `">
@@ -30,10 +31,21 @@ function generate_html_for_data(iter, t_name, t_hash, c_cont, r_cont) {
         </details>
     </div>
     <div class="result-window">
+    <details>
+        <summary>Result</summary>
         <details>
-            <summary>Result</summary>
-            <pre id="result-content_` + t_name + `">` + r_cont + `</pre>
-    </div>
+            <summary>STDOUT</summary>
+            <pre id="result-content_stdout.` + t_name + `"></pre>
+        </details>
+        <details>
+            <summary>STDERR</summary>
+            <pre id="result-content_stderr.` + t_name + `"></pre>
+        </details>
+        <details>
+            <summary>STDIN</summary>
+            <pre id="result-content_stdin.` + t_name + `"></pre>
+        </details>
+</div>
 </div>`;
 }
 
@@ -44,9 +56,8 @@ document.getElementById("open_file_button").addEventListener("click", function (
 ipcR.on("selected-file", (event, filePath) => {
     file_location = filePath;
     if (file_location !== null) {
-        if (document.getElementById("blank") !== null)
-            document.getElementById("blank").style.setProperty("display", "none");
-        document.getElementById("data").innerHTML = "";
+        target_names = []; // empty the vector
+        document.getElementById("data").innerHTML = `<div style="display: none;" id="search_error_parent"><h2>No target found matching <span style="color: #ff5555;" id="search_error"></span></h2></div>`;
         var runcpp = spawn((os.platform() === "win32" ? "runcpp.exe" : "runcpp"), ["--serialize", file_location, "-o", file_location + ".runcpp.bin", "--print-gui-client"],
             {
                 env: process.env,
@@ -101,7 +112,9 @@ ipcR.on("selected-file", (event, filePath) => {
                         }
                         i++;
                     }
-                    document.getElementById("data").innerHTML += generate_html_for_data(x.toString(), t_name, t_hash, c_cont, "");
+                    c_cont = c_cont.substring(0, c_cont.length - 1); // removes extra new line character from the end
+                    document.getElementById("data").innerHTML += generate_html_for_data(t_name, t_hash, c_cont);
+                    target_names.push(t_name);
                     i++;
                 }
 
@@ -110,7 +123,9 @@ ipcR.on("selected-file", (event, filePath) => {
                 for (let q = 0; q < start_buttons.length; q++) {
                     start_buttons[q].addEventListener("click", () => {
                         var target_name = start_buttons[q].id.substring(start_buttons[q].id.indexOf("_") + 1, start_buttons[q].id.length);
-                        document.getElementById("result-content_" + target_name).innerHTML = ""; // clear content every time button is clicked
+                        document.getElementById("result-content_stderr." + target_name).innerHTML = ""; // clear content every time button is clicked
+                        document.getElementById("result-content_stdout." + target_name).innerHTML = ""; // clear content every time button is clicked
+                        document.getElementById("result-content_stdin." + target_name).innerHTML = ""; // clear content every time button is clicked
                         var rc_runner = spawn((os.platform() === "win32" ? "runcpp.exe" : "runcpp"), ["--deserialize", file_location + ".runcpp.bin", target_name],
                             {
                                 env: process.env,
@@ -121,11 +136,11 @@ ipcR.on("selected-file", (event, filePath) => {
                         );
 
                         rc_runner.stderr.on("data", function (data) {
-                            document.getElementById("result-content_" + target_name).innerHTML += ansi_c.toHtml(data.toString()); // sets to pre
+                            document.getElementById("result-content_stderr." + target_name).innerHTML += ansi_c.toHtml(data.toString()); // sets to pre
                         });
 
                         rc_runner.stdout.on("data", function (data) {
-                            document.getElementById("result-content_" + target_name).innerHTML += ansi_c.toHtml(data.toString()); // sets to pre
+                            document.getElementById("result-content_stdout." + target_name).innerHTML += ansi_c.toHtml(data.toString()); // sets to pre
                         });
                     });
                 }
