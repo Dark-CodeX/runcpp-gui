@@ -235,11 +235,25 @@ body {
 }
 
 .data .data_container .code summary,
-.data .data_container .result-window summary {
+.data .data_container .result-window summary,
+.data .data_container .result-window details details summary {
     color: var(--txt-color);
     user-select: none;
     font-size: x-large;
     font-weight: bold;
     cursor: pointer;
     font-family: monospace;
+    margin-bottom: 10px;
+}
+
+.data .data_container .result-window details details summary {
+    font-size: large;
+}
+
+.data .data_container .result-window details details {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: var(--bg-sec-color);
+    box-shadow: var(--shadow-child);
+    border-radius: 10px;
 }
