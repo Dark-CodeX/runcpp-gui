@@ -1,6 +1,5 @@
 const os = require("os");
 const ipcR = require("electron").ipcRenderer;
-const appFullPath = require("electron").app;
 const spawn = require("child_process").spawn;
 const Convert = require("ansi-to-html");
 import { highlighting } from "./theme_switch.js";
@@ -60,7 +59,7 @@ ipcR.on("selected-file", (event, filePath) => {
     if (file_location !== null) {
         target_names = []; // empty the vector
         document.getElementById("data").innerHTML = `<div style="display: none;" id="search_error_parent"><h2>No target found matching <span style="color: #ff5555;" id="search_error"></span></h2></div>`;
-        var runcpp = spawn((os.platform() === "win32" ? appFullPath.getAppPath() + "/runcpp.exe" : appFullPath.getAppPath() + "/runcpp"), ["--serialize", file_location, "-o", file_location + ".runcpp.bin", "--print-gui-client"],
+        var runcpp = spawn((os.platform() === "win32" ? process.cwd() + "/runcpp.exe" : process.cwd() + "/runcpp"), ["--serialize", file_location, "-o", file_location + ".runcpp.bin", "--print-gui-client"],
             {
                 env: process.env,
                 cwd: file_location.substring(0, file_location.lastIndexOf(os.platform() === "win32" ? "\\" : "/")),
@@ -128,7 +127,7 @@ ipcR.on("selected-file", (event, filePath) => {
                         document.getElementById("result-content_stderr." + target_name).innerHTML = ""; // clear content every time button is clicked
                         document.getElementById("result-content_stdout." + target_name).innerHTML = ""; // clear content every time button is clicked
                         document.getElementById("result-content_stdin." + target_name).innerHTML = ""; // clear content every time button is clicked
-                        var rc_runner = spawn((os.platform() === "win32" ? appFullPath.getAppPath() + "/runcpp.exe" : appFullPath.getAppPath() + "/runcpp"), ["--deserialize", file_location + ".runcpp.bin", target_name],
+                        var rc_runner = spawn((os.platform() === "win32" ? process.cwd() + "/runcpp.exe" : process.cwd() + "/runcpp"), ["--deserialize", file_location + ".runcpp.bin", target_name],
                             {
                                 env: process.env,
                                 cwd: file_location.substring(0, file_location.lastIndexOf(os.platform() === "win32" ? "\\" : "/")),
