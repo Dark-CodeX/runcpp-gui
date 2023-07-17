@@ -16,7 +16,7 @@ const createWindow = () => {
             contextIsolation: false,
             preload: join(__dirname, "preload.js"),
             spellcheck: true,
-            // devTools: false,
+            devTools: false,
             zoomFactor: 1.0
         },
         minHeight: 600,
@@ -26,7 +26,7 @@ const createWindow = () => {
 
     // and load the index.html of the app.
     mainWindow.loadFile(join(__dirname, "../index.html"));
-    // mainWindow.setMenu(null);
+    mainWindow.setMenu(null);
 
     ipcMain.on("open-file-dialog", (event) => {
         dialog.showOpenDialog({
